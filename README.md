@@ -19,7 +19,7 @@ If the application has correctly pinned the IP, the second DNS query never happe
 
 ## Requirements
 
-- A domain (GoDaddy, Namecheap, or Porkbun)
+- A domain 
 - A VPS with a public IP (DigitalOcean, Vultr, or Linode)
 - Python 3.10+
 - `dnslib` library
@@ -28,15 +28,7 @@ If the application has correctly pinned the IP, the second DNS query never happe
 
 ## Step 1 — Buy a Domain
 
-Go to any of these registrars and purchase a cheap domain (~$1–3/year):
-
-| Registrar | Cheapest TLD |
-|-----------|-------------|
-| [Porkbun](https://porkbun.com) | `.xyz` ~$1/year |
-| [Namecheap](https://namecheap.com) | `.site` ~$1/year |
-| [GoDaddy](https://godaddy.com) | `.com` ~$10/year |
-
-Pick a neutral-sounding name (e.g. `sectest.xyz`, `apicheck.xyz`). You do not need hosting, just the domain.
+Go to any of these registrars and purchase a domain (Porkbun, GoDaddy etc).
 
 ---
 
@@ -109,13 +101,7 @@ scp verify_ip_pinning.py root@<your-vps-ip>:/root/
 On the VPS:
 
 ```bash
-python3 /root/verify_ip_pinning.py \
-    --domain rebind.yourdomain.com \
-    --real-ip 8.8.8.8 \
-    --real-port 80 \
-    --trap-ip 169.254.170.2 \
-    --trap-port 8080 \
-    --dns-port 53
+python3 /root/verify_ip_pinning.py --domain rebind.yourdomain.com --real-ip 8.8.8.8 --real-port 80 --trap-ip 169.254.170.2 --trap-port 8080 --dns-port 53
 ```
 
 | Flag | Description |
@@ -127,14 +113,6 @@ python3 /root/verify_ip_pinning.py \
 | `--trap-port` | Port for the trap HTTP server |
 | `--dns-port` | UDP port for the fake DNS server |
 
-Common trap IPs to test:
-
-| Target | IP |
-|--------|----|
-| AWS EC2 metadata | `169.254.169.254` |
-| AWS ECS metadata | `169.254.170.2` |
-| GCP metadata | `169.254.169.254` |
-| localhost | `127.0.0.1` |
 
 ---
 
